@@ -36,7 +36,15 @@ int getErrparm  (U16 errno , char *errmsg)
 	return 0 ;
 	
 }
-	
+
+
+int getDataparm (char * buf)
+{
+	U16  blocks ;
+	memcpy(&blocks , buf+2 , 2);
+	blocks = ntohs(blocks);
+	return  blocks ;
+}	
 int packetack (U16 blocks,char *buf)
 {
 	 U16   optcode = ACK ;

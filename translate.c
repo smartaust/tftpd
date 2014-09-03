@@ -3,8 +3,15 @@
 	
 int myrecvdata(int sock, Remote_information * remote)
 {
+	
 	int ret ;
 	int len ;
+	fd_set fds ;
+	struct timeval  tm;
+	tm.tv_sec = 10 ;
+	tm.tv_usec = 0 ;
+	FD_ZERO (&fds);
+	FD_SET (sock, &fds);
 	len = sizeof(remote->remoteaddr);
 	ret = recvfrom(sock ,remote->buf,BUFLEN,0,&(remote->remoteaddr),&len);
 	return ret ;
