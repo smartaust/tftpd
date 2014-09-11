@@ -31,15 +31,15 @@ typedef enum
 	
 }PACKET_OPT_TYPE;
 
-PACKET_OPT_TYPE  getoptcode(char *buf)  ;
-int getRWRQparm (char *pfilename,char *model,char *buf) ;
-int getAckparm  (char *buf) ;
+PACKET_OPT_TYPE  getoptcode(char *buf);
+int getRWRQparm (char *pfilename,char *model,char *buf);
+int getAckparm  (char *buf);
 int getDataparm  (char *buf);
-int getErrparm  (U16 errno , char *errmsg) ;
+int getErrparm  (U16 errno,char *errmsg);
 
 int packetack (U16 blocks,char *buf);
-int packetdata (U16 blocks , char *pdata , int datalen) ;
-int packeterr (char *buf, ERR_TYPE errtype , char * errmsg) ;
+int packetdata (U16 blocks,char *pdata,int datalen);
+int packeterr (char *buf,int errnum);
 
 
 #endif 
