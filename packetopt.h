@@ -41,5 +41,5 @@ int packetack (U16 blocks,char *buf);
 int packetdata (U16 blocks,char *pdata,int datalen);
 int packeterr (char *buf,int errnum);
 
-
+int packrtoh(char *buf,int len);
 #endif 

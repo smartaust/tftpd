@@ -104,3 +104,48 @@ int packeterr(char *buf,int errnum)
 
 
 }
+
+
+				
+/*对接收到的包进行处理，将其行结束符转化成本机的行结束符*/
+int packrtoh(char *buf,int len)
+{
+	int wide=0;
+	const char *p = buf;
+	char temp[1024] = {0};
+	char *q = temp;
+	int i = 0;
+	while(i < len)
+	{	
+		if (*p == '\r')
+		{
+			if(*(p+1) == '\n')
+			{
+				*q = '\n';
+				p += 2;
+				q ++;
+				i += 2;
+				wide ++;
+			}
+			else
+			{	
+				*q = '\n';
+				 p ++;
+				 q ++;
+				 i ++;
+				 wide ++;
+			}
+			continue;
+		}
+		*q = *p;
+		p ++;
+		q ++;
+		i ++;	
+		wide ++;
+			
+	}
+	memset(buf,0,len);	
+	memcpy(buf,temp,wide);
+	printf("leaving \n");
+	return len -wide;
+}

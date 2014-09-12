@@ -21,7 +21,7 @@ void  handlecmd(PACKET_OPT_TYPE cmdtype,Remote_information *premote)
 {
 	
 	int ret ;
-	int sock = socket(AF_INET,SOCK_DGRAM,0);
+	int sock = socket(AF_INET,SOCK_DGRAM,0);//请求码不正确,同过该socket发送错误信息 
 	switch(cmdtype)
 		{
 			case RRQ :
@@ -137,10 +137,14 @@ static  void handle_wrq(Remote_information *premote)
 	int times = 0;//记录超时次数
 	int flag = 0;//定义一个标志，判断是否是最后一个数据包
 	char filename[30]= {0};//暂存文件名
-	char model[10] = {0};//暂存模式octet 和 netascii模式
+	char model[10] = {0};//暂存模式octet 和 netascii模式	
+	char isasciimodel;
+	int  pret;
 
 	sock = socket(AF_INET,SOCK_DGRAM,0);
 	getRWRQparm(filename,model,premote->buf);
+	printf("model:%s\n",model);
+	isasciimodel = !strcmp(model,"netascii");
 	fd = open(filename,O_WRONLY|O_CREAT,0666);
 
 	if(fd < 0)
@@ -155,6 +159,7 @@ static  void handle_wrq(Remote_information *premote)
 
 	while(1)
 	{
+		pret = 0;
 		/*判断收到的包的序号是否正确 */
 		if(0 != block)
 		{
@@ -184,15 +189,21 @@ static  void handle_wrq(Remote_information *premote)
 		                memset(premote->buf,0,BUFLEN);
 				continue;			
 			}
-
-		        ret = write(fd,premote->buf+4,len -4);
+		
+			if(isasciimodel)
+			{
+				printf("do you working\n");
+				pret=packrtoh(premote->buf+4,len -4);
+				
+			}	
+		        ret = write(fd,premote->buf+4,len -4-pret);
 			if(ret == -1)
 			{
 				printf("write error\n");
-				continue;
+				return;
 			}
 
-			if( ret > 0 && ret < 512)
+			if( len > 0 && len < 516)
 			{
 		  		flag = 1;
 			}		
