@@ -15,7 +15,7 @@ void *handle_apply (void * arg)
 {
 	PACKET_OPT_TYPE opttypes;
         Remote_information remote = *(Remote_information *)arg;		
-	opttypes = getoptcode (remote.buf);
+	opttypes = getoptcode(remote.buf);
 	handlecmd(opttypes,&remote);
 }
 
@@ -63,7 +63,7 @@ int main()
          {
 		FD_ZERO(&fdset);
 		FD_SET(sock, &fdset);
-		ret = select(sock +1 ,&fdset ,NULL ,NULL,NULL);
+		ret = select(sock +1,&fdset,NULL,NULL,NULL);
 		if(ret> 0 )
 		{
 			if(!FD_ISSET(sock,&fdset))
@@ -79,7 +79,7 @@ int main()
 			}
 			else
 			{			
-				ret = pthread_create(&pid ,NULL,handle_apply,&remote);
+				ret = pthread_create(&pid,NULL,handle_apply,&remote);
 				if(ret < 0)
 				{
 					printf("error1\n");

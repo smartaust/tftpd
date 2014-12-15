@@ -106,7 +106,7 @@ int packeterr(char *buf,int errnum)
 }
 
 
-				
+/*返回值是当前字符串长于转换之后串长的差值*/				
 /*对接收到的包进行处理，将其行结束符转化成本机的行结束符*/
 int packrtoh(char *buf,int len)
 {
